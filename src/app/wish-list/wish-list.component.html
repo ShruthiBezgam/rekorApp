@@ -1,0 +1,7 @@
+<br>
+<select #myselect [(ngModel)]="dogBreed" class="selOptn"(change)="displayBreedImg(myselect.value)">
+    <option> Choose a Dog Breed </option>
+    <option *ngFor='let d of dog; index as i' [value]="d">
+        {{d}}
+    </option>
+</select>
