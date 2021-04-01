@@ -2,6 +2,14 @@
 <select #myselect [(ngModel)]="dogBreed" class="selOptn"(change)="displayBreedImg(myselect.value)">
     <option> Choose a Dog Breed </option>
     <option *ngFor='let d of dog; index as i' [value]="d">
-        {{d}}
+        {{d}}       
     </option>
+    
+</select><br><br>
+<img src="{{image}}" crossorigin="anonymous">
+<select *ngIf="show" #subBreed [(ngModel)]="subDogBreed" class="selOptn" (change)="displaySubBreedImg(subBreed.value)">
+    <option> Choose a Sub Dog Breed </option>
+    <option *ngFor='let pet of subBreed; index as i' [value]="pet">
+        {{pet}}       
+    </option>    
 </select>

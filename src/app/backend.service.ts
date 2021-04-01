@@ -8,15 +8,24 @@ import { DogBreedModel } from './wish-list/wish-list.model';
 })
 export class BackendService {
   private _dogdataUrl: string = "https://dog.ceo/api/breeds/list/all";
-  private _breedImgUrl: string =  "https://dog.ceo/api/breed/hound/images";
+  private _breedImgUrl: string =  "https://dog.ceo/api/breed/";
+  private _subBreedImgUrl: string = "https://dog.ceo/api/breed/";
+
 
   constructor(private http: HttpClient) { }
   //service call to get Dog Breed data
   getDogData(): Observable<DogBreedModel[]> {
     return this.http.get<DogBreedModel[]>(this._dogdataUrl);
   }
-  getBreedImg(): Observable<DogBreedModel[]> {
-    return this.http.get<DogBreedModel[]>(this._breedImgUrl);
+  getBreedImg(dog: String): Observable<DogBreedModel[]> {
+    const breedImg =  this._breedImgUrl + dog +"/images/random"
+    console.log("img",breedImg)
+    return this.http.get<DogBreedModel[]>(breedImg);
+  }
+  getSubBreedImg(subBreed: String): Observable<DogBreedModel[]> {
+    const subBreedImg =  this._subBreedImgUrl + subBreed +"/list"
+    console.log("img",subBreedImg)
+    return this.http.get<DogBreedModel[]>(subBreedImg);
   }
 }
 
