@@ -22,8 +22,13 @@ export class BackendService {
     console.log("img",breedImg)
     return this.http.get<DogBreedModel[]>(breedImg);
   }
-  getSubBreedImg(subBreed: String): Observable<DogBreedModel[]> {
-    const subBreedImg =  this._subBreedImgUrl + subBreed +"/list"
+  getSubBreedList(subBreed: String): Observable<DogBreedModel[]> {
+    const subBreedList =  this._subBreedImgUrl + subBreed +"/list"
+    console.log("img",subBreedList)
+    return this.http.get<DogBreedModel[]>(subBreedList);
+  }
+  getSubBreedImg(dog: String,subDogBreed: String): Observable<DogBreedModel[]> {
+    const subBreedImg =  this._subBreedImgUrl + dog +"/"+ subDogBreed +"/images/random"
     console.log("img",subBreedImg)
     return this.http.get<DogBreedModel[]>(subBreedImg);
   }

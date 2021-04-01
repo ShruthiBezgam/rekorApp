@@ -12,10 +12,12 @@ export class WishListComponent implements OnInit {
   breed: DogBreedModel[] = [];
   dog = [];
   dogBreed;
-  subDogBreed;
+  subDogBreed : String;
   image;
+  subBreed = [];
   breedsArray = [];
-  option: any;
+  
+  dogName: any;
   show: boolean = false;
   constructor(public service: BackendService) { }
 
@@ -27,31 +29,38 @@ export class WishListComponent implements OnInit {
       for (let i in this.breed) {
         this.dog.push(i)
       }
-      //this.breedsArray = Object.keys(this.breed);
-      //this.breedsArray = res["message"];
-      console.log("this.length",this.breed.length) 
-       for (let i = 0; i < this.breed.length; i++) {
-         this.option = this.breedsArray[i];
-        }      
-        console.log("this.option",this.option) 
-      this.show = true;       
+     
+      this.show = false;
     });
-
   }
 
   displayBreedImg(dog: string) {
     console.log("name:", this.dogBreed);
     this.service.getBreedImg(this.dogBreed).subscribe((res) => {
       this.breed = res["message"];
-      console.log("this.breed",this.breed) 
+      console.log("this.breed", this.breed)
       this.image = this.breed;
-           
     });
   }
-  displaySubBreedImg(subBreed: string) {
-    // this.service.getSubBreedImg(this.subDogBreed).subscribe((res) => {
-    //   this.breed = res;
-    //   console.log("this.subbreed",this.breed) 
-    // });   
+  displaySubBreedList(dog: string) {
+    console.log("data", dog)
+    this.dogName = dog;
+    this.show = true;
+    console.log(this.show)
+    this.service.getSubBreedList(dog).subscribe((res) => {
+      this.subDogBreed = res["message"];
+      if(this.subDogBreed.length == 0){
+        this.displayBreedImg(dog);
+        this.show = false;
+      }     
+    });
   }
+  displaySubBreedImg(subBreedName: String){
+    console.log("sub breed name:", subBreedName);
+    this.service.getSubBreedImg(this.dogName,subBreedName).subscribe((res) => {
+      this.breed = res["message"];
+      this.image = this.breed;
+    });
+  }
+
 }
