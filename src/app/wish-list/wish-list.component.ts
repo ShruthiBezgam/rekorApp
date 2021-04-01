@@ -12,11 +12,12 @@ export class WishListComponent implements OnInit {
   breed: DogBreedModel[] = [];
   dog = [];
   dogBreed;
-  subDogBreed : String;
+  subDogBreed;
   image;
   subBreed = [];
   breedsArray = [];
-  
+  breedList= [];
+
   dogName: any;
   show: boolean = false;
   constructor(public service: BackendService) { }
@@ -25,35 +26,36 @@ export class WishListComponent implements OnInit {
     this.service.getDogData().subscribe((res) => {
       this.breed = res["message"];
       //this.dog = JSON.stringify(this.breed);
-      console.log("working", this.breed)
+      console.log("Breed Array", this.breed)
       for (let i in this.breed) {
         this.dog.push(i)
       }
-     
       this.show = false;
     });
   }
 
   displayBreedImg(dog: string) {
-    console.log("name:", this.dogBreed);
     this.service.getBreedImg(this.dogBreed).subscribe((res) => {
       this.breed = res["message"];
-      console.log("this.breed", this.breed)
       this.image = this.breed;
     });
   }
   displaySubBreedList(dog: string) {
-    console.log("data", dog)
     this.dogName = dog;
-    this.show = true;
-    console.log(this.show)
+    this.show = false;
     this.service.getSubBreedList(dog).subscribe((res) => {
       this.subDogBreed = res["message"];
-      if(this.subDogBreed.length == 0){
-        this.displayBreedImg(dog);
-        this.show = false;
-      }     
+      if (this.subDogBreed.length > 0) {
+        this.subBreed = [];
+        for (let i in this.subDogBreed) {
+          this.subBreed.push(this.subDogBreed[i])
+        }
+        this.show = true;
+      } else {
+        this.displayBreedImg(dog)
+      }
     });
+
   }
   displaySubBreedImg(subBreedName: String){
     console.log("sub breed name:", subBreedName);
@@ -61,6 +63,24 @@ export class WishListComponent implements OnInit {
       this.breed = res["message"];
       this.image = this.breed;
     });
+  }
+  //
+  getDogList() {
+    return this.breedList.slice();
+  }
+
+  getDogBreedList(index: number) {
+    return this.breedList[index];
+  }
+
+  addDogBreedList(dog: string){
+    if(dog != '' && dog === dog )
+    this.breedList.push(dog);
+
+  }
+  deleteBreedList(index: number) {
+    this.breedList.splice(index, 1);
+
   }
 
 }

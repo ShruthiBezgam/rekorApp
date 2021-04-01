@@ -1,18 +1,56 @@
-<br>
-<select #myselect [(ngModel)]="dogBreed" class="selOptn"(change)="displaySubBreedList(myselect.value)">
-    <option> Choose a Dog Breed </option>
-    <option *ngFor='let d of dog; index as i' [value]="d">
-        {{d}}       
-    </option>
-    
-</select><br><br>
+<div class="container-fluid">
+  <div>
+    <mat-tab-group class="bg-white" mat-align-tabs="center">
+      <mat-tab label="Dog Breed Selection" class="mr-5">
+        <div class="container text-center">
 
-<select #mysubselect *ngIf="show" [(ngModel)]="subDogBreed" class="selOptn" (change)="displaySubBreedImg(mysubselect.value)">
-    <option> Choose a Sub Dog Breed </option>
-    <option *ngFor='let d of subDogBreed; index as i' [value]="d">
-        {{d}}       
-    </option>    
-</select>
-<br><br>
-<img *ngIf="!show" src="{{image}}" crossorigin="anonymous">
-<img *ngIf="show" src="{{image}}" crossorigin="anonymous">
+          <div>
+            <!--Dog breed selection-->
+            <select #myselect [(ngModel)]="dogBreed" class="p-1 my-3" (change)="displaySubBreedList(myselect.value)">
+              <option disabled> Choose a Dog Breed </option>
+              <option *ngFor='let dname of dog; index as i' [value]="dname">
+                {{dname | uppercase}}
+              </option>
+            </select>
+          </div>
+          <!-- Dog sub breed selection -->
+          <div>
+            <select #myselect *ngIf="show" [(ngModel)]="subDogBreed" class="selOptn p-1 my-3"
+              (change)="displaySubBreedImg(myselect.value)">
+              <option value="0" disabled> Choose a Sub Dog Breed </option>
+              <option *ngFor='let subname of subBreed; index as i' [value]="subname">
+                {{subname | uppercase}}
+              </option>
+            </select>
+          </div>
+          <div class="dogImg">
+            <img class="img-fluid w-100 h-100" *ngIf="!show" src="{{image}}" crossorigin="anonymous">
+            <img class="img-fluid w-100 h-100" *ngIf="show" src="{{image}}" crossorigin="anonymous">
+          </div>
+        </div>
+      </mat-tab>
+      <div class="container">
+        <!--wishlist tab-->
+        <mat-tab label="Dog Breed Wishlist">
+          <select #myselect [(ngModel)]="dogBreed" class="p-2 my-3">
+            <option disabled>Please Choose...</option>
+            <option *ngFor='let dname of dog; index as i' [value]="dname">
+              {{dname | uppercase}}
+            </option>
+          </select>
+          <button class="btn btn-info ml-3" type="submit" (click)="addDogBreedList(myselect.value)">Add</button>
+          <div class="wishlist">
+            <ul class="nav">
+              <li *ngFor="let dog of breedList">
+                <span class="col-9"> {{ dog | uppercase}} </span>
+                <button class="material-icons btn text-danger col-3" (click)="deleteBreedList(myselect.value)">
+                  delete
+                </button>
+              </li>
+            </ul>
+          </div>
+        </mat-tab>
+      </div>
+    </mat-tab-group>
+  </div>
+</div>
